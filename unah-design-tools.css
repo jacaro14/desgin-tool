@@ -1,3 +1,4 @@
+/* Panel de la herramienta */
 #unah-design-toggle {
   position: fixed;
   right: 24px;
@@ -31,12 +32,14 @@
   right: 0;
 }
 
-body.unah-design-panel-open #wrapper,
-body.unah-design-panel-open #content,
+/* Cuando el panel está abierto, intenta dejar espacio para no tapar el editor */
+body.unah-design-panel-open .ic-Layout-contentWrapper,
 body.unah-design-panel-open .ic-Layout-wrapper,
-body.unah-design-panel-open .ic-Layout-contentWrapper {
-  margin-right: 420px !important;
-  transition: margin-right .25s ease;
+body.unah-design-panel-open #wrapper,
+body.unah-design-panel-open #content {
+  padding-right: 420px !important;
+  box-sizing: border-box !important;
+  transition: padding-right .25s ease;
 }
 
 .unah-panel-header {
@@ -176,16 +179,49 @@ body.unah-design-panel-open .ic-Layout-contentWrapper {
   font: inherit;
 }
 
-@media (max-width: 900px) {
+/* Vista guardada: NO mostrar ayudas visuales */
+.unah-block-label {
+  display: none !important;
+}
+
+.unah-editor-block {
+  border: 0 !important;
+  padding: 0 !important;
+  margin: 1rem 0 !important;
+  outline: 0 !important;
+}
+
+/* Estilos de los bloques en vista guardada */
+.unah-editor-block[data-unah-style="primary"] .card,
+.unah-editor-block[data-unah-style="primary"].alert {
+  border-color: #0d6efd !important;
+}
+
+.unah-editor-block[data-unah-style="success"] .card,
+.unah-editor-block[data-unah-style="success"].alert {
+  border-color: #198754 !important;
+}
+
+.unah-editor-block[data-unah-style="warning"] .card,
+.unah-editor-block[data-unah-style="warning"].alert {
+  border-color: #ffc107 !important;
+}
+
+.unah-editor-block[data-unah-style="danger"] .card,
+.unah-editor-block[data-unah-style="danger"].alert {
+  border-color: #dc3545 !important;
+}
+
+@media (max-width: 1100px) {
+  body.unah-design-panel-open .ic-Layout-contentWrapper,
+  body.unah-design-panel-open .ic-Layout-wrapper,
+  body.unah-design-panel-open #wrapper,
+  body.unah-design-panel-open #content {
+    padding-right: 0 !important;
+  }
+
   #unah-design-panel {
     width: 90vw;
     right: -90vw;
-  }
-
-  body.unah-design-panel-open #wrapper,
-  body.unah-design-panel-open #content,
-  body.unah-design-panel-open .ic-Layout-wrapper,
-  body.unah-design-panel-open .ic-Layout-contentWrapper {
-    margin-right: 0 !important;
   }
 }
