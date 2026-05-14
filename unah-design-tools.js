@@ -11,7 +11,7 @@
   let selectedBlock = null;
   let selectedEditorDoc = null;
 
-  function loadExternalAsset(id, type, url) {
+  function loadParentAsset(id, type, url) {
     if (document.getElementById(id)) return;
 
     if (type === 'css') {
@@ -31,9 +31,9 @@
     }
   }
 
-  function loadBootstrap() {
-    loadExternalAsset('unah-bootstrap-css', 'css', CONFIG.bootstrapCssUrl);
-    loadExternalAsset('unah-bootstrap-js', 'js', CONFIG.bootstrapJsUrl);
+  function loadBootstrapOnCanvasPage() {
+    loadParentAsset('unah-bootstrap-css-parent', 'css', CONFIG.bootstrapCssUrl);
+    loadParentAsset('unah-bootstrap-js-parent', 'js', CONFIG.bootstrapJsUrl);
   }
 
   function isEditingCanvasContent() {
@@ -57,7 +57,8 @@
   }
 
   function waitForEditor() {
-    loadBootstrap();
+    loadBootstrapOnCanvasPage();
+    enableSavedContentInteractions();
 
     const observer = new MutationObserver(function () {
       if (isEditingCanvasContent()) {
@@ -65,12 +66,10 @@
           createPanel();
         }
 
-        applyEditorCss();
+        applyEditorAssets();
         enableBlockSelection();
-        pushCanvasLayout(true);
       } else {
         removePanel();
-        pushCanvasLayout(false);
       }
     });
 
@@ -81,16 +80,9 @@
 
     if (isEditingCanvasContent()) {
       createPanel();
-      applyEditorCss();
+      applyEditorAssets();
       enableBlockSelection();
-      pushCanvasLayout(true);
     }
-
-    enableSavedContentInteractions();
-  }
-
-  function pushCanvasLayout(enable) {
-    document.body.classList.toggle('unah-design-panel-active', enable);
   }
 
   function removePanel() {
@@ -99,6 +91,8 @@
 
     if (panel) panel.remove();
     if (toggle) toggle.remove();
+
+    document.body.classList.remove('unah-design-panel-open');
 
     selectedBlock = null;
     selectedEditorDoc = null;
@@ -124,7 +118,7 @@
       <div class="unah-tabs">
         <button type="button" data-tab="blocks" class="active">Blocks</button>
         <button type="button" data-tab="templates">Templates</button>
-        <button type="button" data-tab="styles">Styles</button>
+        <button type="button" data-tab="styles">Edit</button>
       </div>
 
       <div class="unah-tab-content" id="unah-tab-content">
@@ -135,13 +129,9 @@
     document.body.appendChild(toggle);
     document.body.appendChild(panel);
 
-    toggle.addEventListener('click', function () {
-      openPanel();
-    });
+    toggle.addEventListener('click', openPanel);
 
-    panel.querySelector('#unah-close-panel').addEventListener('click', function () {
-      closePanel();
-    });
+    panel.querySelector('#unah-close-panel').addEventListener('click', closePanel);
 
     panel.addEventListener('click', handlePanelClick);
     panel.addEventListener('input', handlePanelInput);
@@ -291,13 +281,14 @@
   function getStylesView() {
     if (!selectedBlock) {
       return `
-        <h3>Styles</h3>
+        <h3>Edit Block</h3>
         <p class="unah-muted">Seleccione un bloque dentro del editor para modificarlo aquí.</p>
       `;
     }
 
     const title = selectedBlock.querySelector('[data-unah-edit="title"]');
     const body = selectedBlock.querySelector('[data-unah-edit="body"]');
+    const style = selectedBlock.dataset.unahStyle || 'default';
 
     return `
       <h3>Edit ${selectedBlock.dataset.unahBlock || 'Block'}</h3>
@@ -322,11 +313,11 @@
       <label class="unah-field">
         <span>Style</span>
         <select data-field="block-style">
-          <option value="default">Default</option>
-          <option value="primary">Primary</option>
-          <option value="success">Success</option>
-          <option value="warning">Warning</option>
-          <option value="danger">Danger</option>
+          <option value="default" ${style === 'default' ? 'selected' : ''}>Default</option>
+          <option value="primary" ${style === 'primary' ? 'selected' : ''}>Primary</option>
+          <option value="success" ${style === 'success' ? 'selected' : ''}>Success</option>
+          <option value="warning" ${style === 'warning' ? 'selected' : ''}>Warning</option>
+          <option value="danger" ${style === 'danger' ? 'selected' : ''}>Danger</option>
         </select>
       </label>
     `;
@@ -539,6 +530,8 @@
       return;
     }
 
+    applyEditorAssets();
+
     iframe.contentDocument.body.focus();
 
     try {
@@ -547,11 +540,11 @@
       iframe.contentDocument.body.insertAdjacentHTML('beforeend', html);
     }
 
-    applyEditorCss();
+    applyEditorAssets();
     enableBlockSelection();
   }
 
-  function applyEditorCss() {
+  function applyEditorAssets() {
     const editorDoc = getEditorDoc();
     if (!editorDoc) return;
 
@@ -563,15 +556,15 @@
       editorDoc.head.appendChild(bs);
     }
 
-    if (!editorDoc.getElementById('unah-editor-css')) {
+    if (!editorDoc.getElementById('unah-editor-helper-css')) {
       const style = editorDoc.createElement('style');
-      style.id = 'unah-editor-css';
+      style.id = 'unah-editor-helper-css';
       style.textContent = `
         .unah-editor-block {
           position: relative !important;
           border: 2px dotted #0d6efd !important;
           padding: 22px !important;
-          margin: 28px 0 !important;
+          margin: 30px 0 !important;
           border-radius: 6px !important;
           background-clip: padding-box !important;
         }
@@ -585,6 +578,7 @@
         }
 
         .unah-block-label {
+          display: block !important;
           position: absolute !important;
           top: -20px !important;
           right: 8px !important;
@@ -670,20 +664,21 @@
     const content = document.getElementById('unah-tab-content');
     if (content) content.innerHTML = getStylesView();
 
-    applyEditorCss();
+    applyEditorAssets();
   }
 
   function enableSavedContentInteractions() {
     document.addEventListener('click', function (e) {
       const tabBtn = e.target.closest('[data-bs-toggle="tab"]');
+
       if (tabBtn && !window.bootstrap) {
         e.preventDefault();
 
         const targetSelector = tabBtn.getAttribute('data-bs-target');
         if (!targetSelector) return;
 
-        const tabList = tabBtn.closest('[role="tablist"]');
         const wrapper = tabBtn.closest('[data-unah-block]') || document;
+        const tabList = tabBtn.closest('[role="tablist"]');
 
         if (tabList) {
           tabList.querySelectorAll('[data-bs-toggle="tab"]').forEach(function (btn) {
@@ -701,6 +696,25 @@
 
         const pane = wrapper.querySelector(targetSelector);
         if (pane) pane.classList.add('show', 'active');
+      }
+
+      const collapseBtn = e.target.closest('[data-bs-toggle="collapse"]');
+
+      if (collapseBtn && !window.bootstrap) {
+        e.preventDefault();
+
+        const targetSelector = collapseBtn.getAttribute('data-bs-target');
+        if (!targetSelector) return;
+
+        const wrapper = collapseBtn.closest('[data-unah-block]') || document;
+        const target = wrapper.querySelector(targetSelector);
+
+        if (target) {
+          target.classList.toggle('show');
+          const expanded = target.classList.contains('show');
+          collapseBtn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+          collapseBtn.classList.toggle('collapsed', !expanded);
+        }
       }
     });
   }
