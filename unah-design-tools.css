@@ -1,227 +1,465 @@
+
 /* Panel de la herramienta */
 #unah-design-toggle {
-  position: fixed;
-  right: 24px;
-  bottom: 24px;
-  z-index: 99998;
-  background: #0d6efd;
-  color: #ffffff;
-  border: 0;
-  border-radius: 999px;
-  padding: 12px 18px;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0,0,0,.25);
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 99998;
+    background: #0d6efd;
+    color: #ffffff;
+    border: 0;
+    border-radius: 999px;
+    padding: 12px 18px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,.25);
 }
 
 #unah-design-panel {
-  position: fixed;
-  top: 0;
-  right: -420px;
-  width: 420px;
-  height: 100vh;
-  background: #ffffff;
-  z-index: 99999;
-  box-shadow: -6px 0 20px rgba(0,0,0,.25);
-  transition: right .25s ease;
-  overflow-y: auto;
-  font-family: Arial, sans-serif;
+    position: fixed;
+    top: 0;
+    right: -420px;
+    width: 420px;
+    height: 100vh;
+    background: #ffffff;
+    z-index: 99999;
+    box-shadow: -6px 0 20px rgba(0,0,0,.25);
+    transition: right .25s ease;
+    overflow-y: auto;
+    font-family: Arial, sans-serif;
 }
 
 #unah-design-panel.open {
-  right: 0;
+    right: 0;
 }
 
-/* Cuando el panel está abierto, intenta dejar espacio para no tapar el editor */
-body.unah-design-panel-open .ic-Layout-contentWrapper,
-body.unah-design-panel-open .ic-Layout-wrapper,
-body.unah-design-panel-open #wrapper,
-body.unah-design-panel-open #content {
-  padding-right: 420px !important;
-  box-sizing: border-box !important;
-  transition: padding-right .25s ease;
+body.unah-design-panel-open .ic-Layout-contentWrapper {
+    padding-right: 420px !important;
+    box-sizing: border-box !important;
+    transition: padding-right .25s ease;
 }
 
 .unah-panel-header {
-  background: #0d6efd;
-  color: #ffffff;
-  padding: 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    background: #0d6efd;
+    color: #ffffff;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .unah-panel-header h2 {
-  margin: 0;
-  font-size: 18px;
+    margin: 0;
+    font-size: 18px;
 }
 
 #unah-close-panel {
-  background: transparent;
-  border: 0;
-  color: #ffffff;
-  font-size: 28px;
-  cursor: pointer;
+    background: transparent;
+    border: 0;
+    color: #ffffff;
+    font-size: 28px;
+    cursor: pointer;
 }
 
 .unah-tabs {
-  display: flex;
-  border-bottom: 1px solid #dddddd;
+    display: flex;
+    border-bottom: 1px solid #dddddd;
 }
 
 .unah-tabs button {
-  flex: 1;
-  padding: 12px;
-  background: #f5f5f5;
-  border: 0;
-  border-right: 1px solid #dddddd;
-  cursor: pointer;
+    flex: 1;
+    padding: 12px;
+    background: #f5f5f5;
+    border: 0;
+    border-right: 1px solid #dddddd;
+    cursor: pointer;
 }
 
 .unah-tabs button.active {
-  background: #ffffff;
-  color: #0d6efd;
-  font-weight: 700;
-  border-bottom: 3px solid #0d6efd;
-}
-
-.unah-tabs button:hover {
-  background: #e8f1f8;
+    background: #ffffff;
+    color: #0d6efd;
+    font-weight: 700;
+    border-bottom: 3px solid #0d6efd;
 }
 
 .unah-tab-content {
-  padding: 16px;
-}
-
-.unah-tab-content h3 {
-  margin-top: 0;
-  font-size: 16px;
+    padding: 16px;
 }
 
 .unah-muted {
-  color: #666666;
-  font-size: 14px;
+    color: #666666;
+    font-size: 14px;
 }
 
 .unah-tool-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
 }
 
 .unah-tool-tile {
-  min-height: 82px;
-  border: 1px solid #dddddd;
-  background: #ffffff;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  align-items: center;
-  justify-content: center;
+    min-height: 82px;
+    border: 1px solid #dddddd;
+    background: #ffffff;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+    justify-content: center;
 }
 
 .unah-tool-tile:hover {
-  background: #eef6fb;
-  border-color: #0d6efd;
+    background: #eef6fb;
+    border-color: #0d6efd;
 }
 
-.unah-tool-icon {
-  font-size: 24px;
-  font-weight: 700;
-  color: #444444;
+.unah-tool-tile span {
+    font-size: 24px;
+    font-weight: 700;
+    color: #444444;
 }
 
 .unah-edit-actions {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 6px;
-  margin-bottom: 16px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+    margin-bottom: 16px;
 }
 
 .unah-edit-actions button {
-  border: 1px solid #cccccc;
-  background: #f8f8f8;
-  padding: 8px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.unah-edit-actions button:hover {
-  background: #e8f1f8;
+    border: 1px solid #cccccc;
+    background: #f8f8f8;
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 .unah-edit-actions button.danger {
-  color: #dc3545;
-  border-color: #dc3545;
+    color: #dc3545;
+    border-color: #dc3545;
 }
 
 .unah-field {
-  display: block;
-  margin-bottom: 14px;
+    display: block;
+    margin-bottom: 14px;
 }
 
 .unah-field span {
-  display: block;
-  font-weight: 700;
-  margin-bottom: 5px;
+    display: block;
+    font-weight: 700;
+    margin-bottom: 5px;
 }
 
 .unah-field input,
 .unah-field textarea,
 .unah-field select {
-  width: 100%;
-  border: 1px solid #cccccc;
-  border-radius: 4px;
-  padding: 8px;
-  font: inherit;
+    width: 100%;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    padding: 8px;
+    font: inherit;
 }
 
-/* Vista guardada: NO mostrar ayudas visuales */
-.unah-block-label {
-  display: none !important;
+/* Vista guardada: ayudas visuales ocultas */
+.user_content .unah-block-label,
+#content .unah-block-label {
+    display: none !important;
 }
 
-.unah-editor-block {
-  border: 0 !important;
-  padding: 0 !important;
-  margin: 1rem 0 !important;
-  outline: 0 !important;
+.user_content .unah-editor-block,
+#content .unah-editor-block {
+    border: 0 !important;
+    padding: 0 !important;
+    margin: 1rem 0 !important;
+    outline: 0 !important;
 }
 
-/* Estilos de los bloques en vista guardada */
-.unah-editor-block[data-unah-style="primary"] .card,
-.unah-editor-block[data-unah-style="primary"].alert {
-  border-color: #0d6efd !important;
+/* Bootstrap-like SOLO dentro del contenido creado por la herramienta */
+.user_content .unah-editor-block *,
+#content .unah-editor-block * {
+    box-sizing: border-box;
 }
 
-.unah-editor-block[data-unah-style="success"] .card,
-.unah-editor-block[data-unah-style="success"].alert {
-  border-color: #198754 !important;
+.user_content .unah-editor-block .accordion-item,
+#content .unah-editor-block .accordion-item {
+    border: 1px solid #dee2e6;
+    border-radius: .375rem;
+    overflow: hidden;
+    background: #fff;
 }
 
-.unah-editor-block[data-unah-style="warning"] .card,
-.unah-editor-block[data-unah-style="warning"].alert {
-  border-color: #ffc107 !important;
+.user_content .unah-editor-block .accordion-button,
+#content .unah-editor-block .accordion-button {
+    display: block;
+    width: 100%;
+    padding: 1rem 1.25rem;
+    background: #f8f9fa;
+    border: 0;
+    text-align: left;
+    font-weight: 600;
+    color: #212529;
+    cursor: pointer;
 }
 
-.unah-editor-block[data-unah-style="danger"] .card,
-.unah-editor-block[data-unah-style="danger"].alert {
-  border-color: #dc3545 !important;
+.user_content .unah-editor-block .accordion-button:not(.collapsed),
+#content .unah-editor-block .accordion-button:not(.collapsed) {
+    color: #0d6efd;
+    background: #e7f1ff;
+}
+
+.user_content .unah-editor-block .accordion-collapse:not(.show),
+#content .unah-editor-block .accordion-collapse:not(.show) {
+    display: none;
+}
+
+.user_content .unah-editor-block .accordion-body,
+#content .unah-editor-block .accordion-body {
+    padding: 1rem 1.25rem;
+}
+
+.user_content .unah-editor-block .nav,
+#content .unah-editor-block .nav {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+
+.user_content .unah-editor-block .nav-tabs,
+#content .unah-editor-block .nav-tabs {
+    border-bottom: 1px solid #dee2e6;
+}
+
+.user_content .unah-editor-block .nav-link,
+#content .unah-editor-block .nav-link {
+    display: block;
+    padding: .5rem 1rem;
+    border: 1px solid transparent;
+    background: transparent;
+    color: #0d6efd;
+    cursor: pointer;
+    border-radius: .375rem .375rem 0 0;
+}
+
+.user_content .unah-editor-block .nav-link.active,
+#content .unah-editor-block .nav-link.active {
+    color: #495057;
+    background-color: #fff;
+    border-color: #dee2e6 #dee2e6 #fff;
+}
+
+.user_content .unah-editor-block .tab-pane,
+#content .unah-editor-block .tab-pane {
+    display: none;
+}
+
+.user_content .unah-editor-block .tab-pane.show.active,
+#content .unah-editor-block .tab-pane.show.active {
+    display: block;
+}
+
+.user_content .unah-editor-block .border,
+#content .unah-editor-block .border {
+    border: 1px solid #dee2e6 !important;
+}
+
+.user_content .unah-editor-block .border-top-0,
+#content .unah-editor-block .border-top-0 {
+    border-top: 0 !important;
+}
+
+.user_content .unah-editor-block .p-3,
+#content .unah-editor-block .p-3 {
+    padding: 1rem !important;
+}
+
+.user_content .unah-editor-block .p-4,
+#content .unah-editor-block .p-4 {
+    padding: 1.5rem !important;
+}
+
+.user_content .unah-editor-block .p-5,
+#content .unah-editor-block .p-5 {
+    padding: 3rem !important;
+}
+
+.user_content .unah-editor-block .mb-0,
+#content .unah-editor-block .mb-0 {
+    margin-bottom: 0 !important;
+}
+
+.user_content .unah-editor-block .mb-3,
+#content .unah-editor-block .mb-3 {
+    margin-bottom: 1rem !important;
+}
+
+.user_content .unah-editor-block .mb-4,
+#content .unah-editor-block .mb-4 {
+    margin-bottom: 1.5rem !important;
+}
+
+.user_content .unah-editor-block .rounded-3,
+#content .unah-editor-block .rounded-3 {
+    border-radius: .5rem !important;
+}
+
+.user_content .unah-editor-block .bg-light,
+#content .unah-editor-block .bg-light {
+    background-color: #f8f9fa !important;
+}
+
+.user_content .unah-editor-block .text-primary,
+#content .unah-editor-block .text-primary {
+    color: #0d6efd !important;
+}
+
+.user_content .unah-editor-block .bg-primary,
+#content .unah-editor-block .bg-primary {
+    background-color: #0d6efd !important;
+}
+
+.user_content .unah-editor-block .text-white,
+#content .unah-editor-block .text-white {
+    color: #fff !important;
+}
+
+.user_content .unah-editor-block .fw-bold,
+#content .unah-editor-block .fw-bold {
+    font-weight: 700 !important;
+}
+
+.user_content .unah-editor-block .lead,
+#content .unah-editor-block .lead {
+    font-size: 1.25rem;
+    font-weight: 300;
+}
+
+.user_content .unah-editor-block .display-6,
+#content .unah-editor-block .display-6 {
+    font-size: calc(1.375rem + 1.5vw);
+    font-weight: 300;
+    line-height: 1.2;
+}
+
+.user_content .unah-editor-block.alert-info,
+#content .unah-editor-block.alert-info {
+    color: #055160;
+    background-color: #cff4fc;
+    border-color: #b6effb;
+}
+
+.user_content .unah-editor-block .btn,
+#content .unah-editor-block .btn {
+    display: inline-block;
+    padding: .375rem .75rem;
+    border-radius: .375rem;
+    text-decoration: none !important;
+    border: 1px solid transparent;
+    cursor: pointer;
+}
+
+.user_content .unah-editor-block .btn-primary,
+#content .unah-editor-block .btn-primary {
+    color: #fff !important;
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.user_content .unah-editor-block .row,
+#content .unah-editor-block .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -.5rem;
+    margin-left: -.5rem;
+}
+
+.user_content .unah-editor-block .g-3 > *,
+#content .unah-editor-block .g-3 > * {
+    padding-right: .5rem;
+    padding-left: .5rem;
+    margin-top: 1rem;
+}
+
+.user_content .unah-editor-block .col-md-4,
+#content .unah-editor-block .col-md-4 {
+    flex: 0 0 auto;
+    width: 33.333333%;
+}
+
+.user_content .unah-editor-block .card,
+#content .unah-editor-block .card {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.175);
+    border-radius: .375rem;
+}
+
+.user_content .unah-editor-block .card-body,
+#content .unah-editor-block .card-body {
+    flex: 1 1 auto;
+    padding: 1rem;
+}
+
+.user_content .unah-editor-block .card-header,
+#content .unah-editor-block .card-header {
+    padding: .5rem 1rem;
+    border-bottom: 1px solid rgba(0,0,0,.175);
+}
+
+.user_content .unah-editor-block .h-100,
+#content .unah-editor-block .h-100 {
+    height: 100% !important;
+}
+
+.user_content .unah-editor-block .h5,
+#content .unah-editor-block .h5 {
+    font-size: 1.25rem;
+}
+
+.user_content .unah-editor-block .pb-2,
+#content .unah-editor-block .pb-2 {
+    padding-bottom: .5rem !important;
+}
+
+.user_content .unah-editor-block .border-bottom,
+#content .unah-editor-block .border-bottom {
+    border-bottom: 1px solid #dee2e6 !important;
+}
+
+.user_content .unah-editor-block .border-primary,
+#content .unah-editor-block .border-primary {
+    border-color: #0d6efd !important;
+}
+
+.user_content .unah-editor-block .border-2,
+#content .unah-editor-block .border-2 {
+    border-width: 2px !important;
+}
+
+.user_content .unah-editor-block .opacity-75,
+#content .unah-editor-block .opacity-75 {
+    opacity: .75 !important;
 }
 
 @media (max-width: 1100px) {
-  body.unah-design-panel-open .ic-Layout-contentWrapper,
-  body.unah-design-panel-open .ic-Layout-wrapper,
-  body.unah-design-panel-open #wrapper,
-  body.unah-design-panel-open #content {
-    padding-right: 0 !important;
-  }
+    body.unah-design-panel-open .ic-Layout-contentWrapper {
+        padding-right: 0 !important;
+    }
 
-  #unah-design-panel {
-    width: 90vw;
-    right: -90vw;
-  }
+    #unah-design-panel {
+        width: 90vw;
+        right: -90vw;
+    }
+}
+
+@media (max-width: 768px) {
+    .user_content .unah-editor-block .col-md-4,
+    #content .unah-editor-block .col-md-4 {
+        width: 100%;
+    }
 }

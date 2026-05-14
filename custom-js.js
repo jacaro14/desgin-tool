@@ -224,12 +224,12 @@ headers.forEach(header => {
     // CSS externo
     const css = document.createElement('link');
     css.rel = 'stylesheet';
-    css.href = 'https://jacaro14.github.io/desgin-tool/unah-design-tools.css?v=6';
+    css.href = 'https://jacaro14.github.io/desgin-tool/unah-design-tools.css?v=7';
     document.head.appendChild(css);
 
     // JS externo
     const script = document.createElement('script');
-    script.src = 'https://jacaro14.github.io/desgin-tool/unah-design-tools.js?v=6';
+    script.src = 'https://jacaro14.github.io/desgin-tool/unah-design-tools.js?v=7';
     script.defer = true;
 
     document.head.appendChild(script);
